@@ -6,8 +6,8 @@ root.title('Qouting Tool')
 root.iconbitmap("C:/Users/LesediM/Desktop/New/LI.ico")
 
 
-# my_img = ImageTk.PhotoImage(Image.open("C:/Users/LesediM/Desktop/New/MA.png"))
-# my_label = Label(root,image=my_img,anchor = 'w',justify = 'right')
+my_img = ImageTk.PhotoImage(Image.open("C:/Users/LesediM/Desktop/New/MA.png"))
+my_label = Label(root,image=my_img,anchor = 'w',justify = 'right')
 
 # Creating all labels
 label_type = Label(root,text = 'Type of quote: ',font = 'times 12 bold',anchor = "w",width = 20,justify= 'left')
@@ -20,7 +20,7 @@ label_pol_type = Label(root,text = 'Policy type: ',font = 'times 12 bold',anchor
 label_description = Label(root,text = 'Business description: ',font = 'times 12 bold',anchor = "w",width = 20,justify= 'left')
 label_operation = Label(root,text = 'Key area of operation: ',font = 'times 12 bold',anchor = "w",width = 20,justify= 'left')
 
-# my_label.grid(row  = 0,column = 0)
+my_label.grid(row  = 0,column = 0)
 label_type.grid(row = 1,column = 0)
 label_date.grid(row = 2,column = 0)
 label_insured.grid(row = 3,column = 0)

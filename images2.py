@@ -1,12 +1,19 @@
 from tkinter import *
 from PIL import ImageTk,Image
+from tkinter import ttk
 
 root = Tk()
 root.title('Qouting Tool')
 root.iconbitmap("C:/Users/LesediM/Desktop/New/LI.ico")
 label_space = Label(root, text = "  ")
 
+main_frame = Frame(root)
+main_frame.pack(fill = BOTH, expand=1)
+my_canvas = Canvas(main_frame)
 
+my_scrollbar = ttk.Scrollbar(main_frame, orient = VERTICAL,command = my_canvas.yview)
+
+my_scrollbar.grid(row = 0,column = 0)
 
 # my_img = ImageTk.PhotoImage(Image.open("C:/Users/LesediM/Desktop/New/MA.png"))
 # my_label = Label(root,image=my_img,anchor = 'w',justify = 'right')
@@ -33,6 +40,14 @@ menu_type = OptionMenu(root, clicked_type,'Renewal','New Business')
 menu_type.pack(side = 'right')
 
 label_date.pack(side = 'bottom')
+label_date.pack(side = 'bottom')
+label_date.pack(side = 'bottom')
+label_date.pack(side = 'bottom')
+label_date.pack(side = 'bottom')
+label_date.pack(side = 'bottom')
+label_date.pack(side = 'bottom')
+label_date.pack(side = 'bottom')
+
 # label_insured.pack()
 # label_pol_no.pack()
 # label_inception.pack()

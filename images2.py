@@ -44,7 +44,9 @@ label_description = Label(second_frame,width = 50,text = 'Business description: 
 label_operation = Label(second_frame,width = 50,text = 'Key area of operation: ',font = 'times 12 bold',anchor = "w",justify= 'left')
 
 # #Placing labels on grib for policy holder
-label_pholder.pack(side = LEFT)
+label_pholder.place(relx = 1.0,
+                  rely = 0.0,
+                  anchor ='ne')
 # label_type.grid(row = 2,column = 0)
 # label_date.grid(row = 3,column = 0)
 # label_insured.grid(row = 4,column = 0)

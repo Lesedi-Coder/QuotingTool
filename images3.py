@@ -374,7 +374,7 @@ entry_losspremopt1 = Entry(option1_frame).grid(row = 4,column = 1)
 
 clicked_typerating = StringVar(option1_frame)
 clicked_typerating.set('No')
-menu_type = OptionMenu(option1_frame, clicked_typerating,'No','Yes')
+menu_type = OptionMenu(option1_frame, clicked_typerating,'Up','Down')
 menu_type.grid(row = 1,column = 1)
 
 clicked_typerating = StringVar(option1_frame)

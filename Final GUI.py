@@ -530,7 +530,7 @@ label_textopt3 = Label(option3_frame,text = textlabelopt3,font = 'times 11 itali
 label_textopt3.grid(row = 17,column = 0) 
 
 #-------------------Option 4----------------------------------------------------------
-label_opt4 = Label(option4_frame,text = 'Option 3- Aggregate Excess with Burner ',font = 'times 15 bold underline ')
+label_opt4 = Label(option4_frame,text = 'Option 4- Aggregate Excess with Burner ',font = 'times 15 bold underline ')
 label_showquoteopt4 = Label(option4_frame,text = 'Show On Quote: ',font = 'times 12 bold ')
 label_annualopt4 = Label(option4_frame,text = 'Annual Aggregate: ',font = 'times 12 bold ')
 label_applicableopt4 = Label(option4_frame,text = 'Applicable to: ',font = 'times 12 bold ')

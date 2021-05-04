@@ -1,6 +1,11 @@
 from tkinter import *
 from PIL import ImageTk,Image
 from tkinter import ttk
+from tkinter import messagebox
+from tkcalendar import *
+import fpdf
+from fpdf import FPDF
+
 
 HEIGHT = 1000
 WIDTH = 1000
@@ -48,19 +53,63 @@ my_canvas.create_window((0,0), window = main_frame,anchor = "nw")
 
 # my_img = ImageTk.PhotoImage(Image.open("C:/Users/LesediM/Desktop/New/MA.png"))
 # my_label = Label(root,image=my_img,anchor = 'w',justify = 'right')
+user_inputinsured = StringVar(pol_frame)
+user_inputpolno = StringVar(pol_frame)
+user_inputdesc = StringVar(pol_frame)
+user_inputoper = StringVar(pol_frame)
+
+def validation():
+
+	if (user_inputinsured.get() == "" or
+	    user_inputpolno.get()=="" or
+	    user_inputdesc.get()  == "" or
+	    user_inputoper.get() == ""):
+		messagebox.showwarning('Missng Entries','Please enter missing entries')
+
+
+	elif (user_inputpolno.get().isdigit()):
+		pdf = FPDF()
+		pdf.add_page()
+		pdf.set_font('Arial','B',11)
+		# pdf.cell(20,20,my_img,0,1,'C')
+		pdf.cell(10,10,f"Type of quote:\t\t\t{clicked_type.get()}",0,1,'L')
+		pdf.cell(10,10,f"Date of quote:\t\t\t{entry_dateofquote.selection_get()}",0,1,'L')
+		pdf.cell(10,10,f"Insured:\t\t\t{user_inputinsured.get()}",0,1,'L')
+		pdf.cell(10,10,f"Policy No:\t\t\t{user_inputpolno.get()}",0,1,'L')
+		pdf.cell(10,10,f"Policy Inception:\t\t\t{entry_policyinception.selection_get()}",
+			     0,1,'L')
+		pdf.cell(10,
+			     10,
+			     f"Period Of Insurance:\t\t\t{enrty_periodfrom.selection_get()} to {entry_periodto.selection_get()}",
+			     0,1,'L')
+		pdf.cell(10,10,f"Policy Type:\t\t\t{clicked_poltype.get()}",0,1,'L')
+		pdf.cell(10,10,f"Business Description:\t\t\t{user_inputdesc.get()}",0,1,'L')
+		pdf.cell(10,10,f"Key Area Of Operation:\t\t\t{user_inputoper.get()}",0,1,'L')
+
+
+		pdf.output('Quote.pdf','F')
+
+
+	else:	
+	    messagebox.showwarning('Non Numeric Values',
+		    	              ' "Policy no" accepts numeric values only')
+
+	
+
 
 #------------------Policy Holder Infromation-------------------------------------------
-label_pholder = Label(pol_frame,text = 'Policy Holder Information' ,font = 'times 20 bold underline', anchor = 'w')
-label_type = Label(pol_frame,text = 'Type of quote: ' ,font = 'times 12 bold',anchor = 'w')
-label_date = Label(pol_frame,text = 'Date of quote: ' ,font = 'times 12 bold',anchor = "w")
-label_insured = Label(pol_frame,text = 'Insured: ',font = 'times 12 bold',anchor = "w")
-label_pol_no = Label(pol_frame,text = 'Policy no: ' ,font = 'times 12 bold',anchor = "w")
-label_inception = Label(pol_frame,text = 'Policy inception: ',font = 'times 12 bold',anchor = "w")
-label_period = Label(pol_frame,text = 'Period of insurance(From--To): ',font = 'times 12 bold',anchor = "w")
-label_to = Label(pol_frame,text = 'to ',font = 'times 12  bold' ,anchor = "w")
-label_pol_type = Label(pol_frame,text = 'Policy type: ',font = 'times 12 bold',anchor = "w")
-label_description = Label(pol_frame,text = 'Business description: ' ,font = 'times 12 bold',anchor = "w")
-label_operation = Label(pol_frame,text = 'Key area of operation: ' ,font = 'times 12 bold',anchor = "w")
+
+label_pholder = Label(pol_frame,text = 'Policy Holder Information' , font = 'times 20 bold underline')
+label_date = Label(pol_frame,text = 'Date of quote: ' ,font = 'times 12 bold')
+label_type = Label(pol_frame,text = 'Type of quote: ' ,font = 'times 12 bold')
+label_insured = Label(pol_frame,text = 'Insured: ',font = 'times 12 bold')
+label_pol_no = Label(pol_frame,text = 'Policy no: ' ,font = 'times 12 bold')
+label_inception = Label(pol_frame,text = 'Policy inception: ',font = 'times 12 bold')
+label_period = Label(pol_frame,text = 'Period of insurance(From--To): ',font = 'times 12 bold')
+label_to = Label(pol_frame,text = 'to ',font = 'times 12  bold')
+label_pol_type = Label(pol_frame,text = 'Policy type: ',font = 'times 12 bold')
+label_description = Label(pol_frame,text = 'Business description: ' ,font = 'times 12 bold')
+label_operation = Label(pol_frame,text = 'Key area of operation: ' ,font = 'times 12 bold')
 
 #Placing labels on grib for policy holder
 label_pholder.grid(row  = 0,column = 0,sticky = E)
@@ -76,14 +125,36 @@ label_description.grid(row = 9,column = 0,sticky = W)
 label_operation.grid(row = 10,column = 0,sticky = W)
 
 #Text boxes for policyholder information
-entry_dateofquote = Entry(pol_frame).grid(row = 3,column = 1)
-entry_insured = Entry(pol_frame).grid(row =4,column = 1)
-entry_policyno = Entry(pol_frame).grid(row =5,column = 1)
-entry_policyinception = Entry(pol_frame).grid(row =6,column = 1)
-enrty_periodfrom = Entry(pol_frame).grid(row = 7,column =1)
-entry_periodto = Entry(pol_frame).grid(row = 7,column = 3)
-entry_description = Entry(pol_frame).grid(row = 9,column = 1)
-entry_operation = Entry(pol_frame).grid(row =10,column = 1,rowspan = 2)
+e_dateofquote = Calendar(pol_frame,selectmode = "day",year = 2020,month =5,day = 1)
+e_dateofquote.grid(row = 3,column = 1) 
+
+e_insured = Entry(pol_frame,textvariable = user_inputinsured,bg = 'light blue')
+e_insured.grid(row =4,column = 1)
+
+e_policyno = Entry(pol_frame,
+	               textvariable = user_inputpolno,
+	               bg = 'light blue')
+e_policyno.grid(row =5,column = 1)
+
+e_policyinception = Calendar(pol_frame,selectmode = "day",year = 2020,month =5,day = 1)
+e_policyinception.grid(row =6,column = 1)
+
+
+e_periodfrom = Calendar(pol_frame,selectmode = "day",year = 2020,month =5,day = 1)
+e_periodfrom.grid(row = 7,column =1)
+
+e_periodto = Calendar(pol_frame,selectmode = "day",year = 2020,month =5,day = 1)
+e_periodto.grid(row = 7,column = 3)
+
+e_description = Entry(pol_frame,
+	                  textvariable = user_inputdesc,
+	                  bg = 'light blue')
+e_description.grid(row = 9,column = 1)
+
+e_operation = Entry(pol_frame,
+	                textvariable = user_inputoper,
+	                bg = 'light blue')
+e_operation.grid(row =10,column = 1)
 
 #Dropdown menus for policy information
 clicked_type = StringVar(pol_frame)
@@ -96,21 +167,37 @@ clicked_poltype.set('Annual')
 menu_poltype = OptionMenu(pol_frame, clicked_poltype,'Annual','Monthly')
 menu_poltype.grid(row=8,column = 1)
 
+button_save = Button(pol_frame, text="Save", command=validation)
+button_save.grid(row = 11,column =0)
+
+
 #--------------------Fleet Information---------------------------------------------------
 
-label_fleet = Label(fleet_frame,text = 'Fleet Information',font = 'times 20 bold underline',anchor = 'w')
+label_fleet = Label(fleet_frame,text = 'Fleet Information',
+	                font = 'times 20 bold underline',
+	                anchor = 'w')
 label_fleet.grid(row = 0,column = 0,sticky = W)
 
 #Labels for fleet information
-label_vcategory = Label(fleet_frame,text ='Vehicle Category',font = 'times 12 bold underline',justify = 'left',anchor = "w")
-label_cars = Label(fleet_frame,text ='Cars- Single Vehicles',font = 'times 12',justify = 'left',anchor = "w")
-label_motorcycles = Label(fleet_frame,text ='Motorcycles',font = 'times 12',anchor = "w")
+label_vcategory = Label(fleet_frame,text ='Vehicle Category',
+	                    font = 'times 12 bold underline')
+label_cars = Label(fleet_frame,text ='Cars- Single Vehicles',
+	               font = 'times 12')
+label_motorcycles = Label(fleet_frame,text ='Motorcycles',
+	                      font = 'times 12')
 label_ldvs = Label(fleet_frame,text ='LDVs',font = 'times 12',anchor = "w")
-label_commercial = Label(fleet_frame,text ='Commercial Vehicles(Mass ≥ 3500kg)',font = 'times 12',anchor = "w")
-label_busses = Label(fleet_frame,text ='Busses',font = 'times 12',anchor = "w")
-label_mobile = Label(fleet_frame,text ='Mobile Plants ',font = 'times 12',anchor = "w")
-label_specialless = Label(fleet_frame,text ='Special Types < 3500kg(incl Trailers and Forklifts)',font = 'times 12',anchor = "w")
-label_specialmore = Label(fleet_frame,text ='Special Types > 3500kg(incl Trailers and Forklifts)',font = 'times 12',anchor = "w")
+label_commercial = Label(fleet_frame,
+	                     text ='Commercial Vehicles(Mass ≥ 3500kg)',
+	                     font = 'times 12')
+label_busses = Label(fleet_frame,text ='Busses',
+	                 font = 'times 12')
+label_mobile = Label(fleet_frame,text ='Mobile Plants ',font = 'times 12')
+label_specialless = Label(fleet_frame,
+	                      text ='Special Types < 3500kg(incl Trailers and Forklifts)',
+	                      font = 'times 12',anchor = "w")
+label_specialmore = Label(fleet_frame,
+	                      text ='Special Types > 3500kg(incl Trailers and Forklifts)',
+	                      font = 'times 12',anchor = "w")
 label_total = Label(fleet_frame,text ='Total',font = 'times 12 bold underline',anchor = "w")
 
 
@@ -126,52 +213,148 @@ label_specialless.grid(row = 8,column = 0,sticky = W)
 label_specialmore.grid(row = 9,column = 0,sticky = W)
 label_total.grid(row = 10,column = 0,sticky = W)
 
-label_units = Label(fleet_frame,text = 'No. of units',font = 'times 12 bold ',anchor = "w")
-label_value = Label(fleet_frame,text = 'Value',font = 'times 12 bold ',anchor = "w")
-label_damage = Label(fleet_frame,text = 'Own Damage Limit',font = 'times 12 bold ',anchor = "w")
-label_sasria_des = Label(fleet_frame,text = 'SASRIA Description',font = 'times 12 bold ',anchor = "w")
-label_sasria_prem = Label(fleet_frame,text = 'SASRIA Premium',font = 'times 12 bold ',anchor = "w")
+label_units = Label(fleet_frame,text = 'No. of units',font = 'times 12 bold ')
+label_value = Label(fleet_frame,text = 'Value',font = 'times 12 bold ')
+label_damage = Label(fleet_frame,text = 'Own Damage Limit',font = 'times 12 bold ')
+label_sasria_des = Label(fleet_frame,text = 'SASRIA Description',font = 'times 12 bold ')
+label_sasria_prem = Label(fleet_frame,text = 'SASRIA Premium',font = 'times 12 bold ')
 
 label_units.grid(row = 1,column = 1)
-label_damage.grid(row = 1,column = 2)
+label_value.grid(row = 1,column = 2)
 label_damage.grid(row = 1,column = 3)
 label_sasria_des.grid(row = 1,column = 4)
 label_sasria_prem.grid(row = 1,column = 5)
 
-entry_fleet11 = Entry(fleet_frame,width = 10).grid(row = 2,column=1)
-entry_fleet12 = Entry(fleet_frame).grid(row = 2,column=3)
-entry_fleet13 = Entry(fleet_frame).grid(row = 2,column=4)
-entry_fleet14 = Entry(fleet_frame).grid(row = 2,column=5)
-entry_fleet21 = Entry(fleet_frame,width = 10).grid(row = 3,column=1)
-entry_fleet22 = Entry(fleet_frame).grid(row = 3,column=3)
-entry_fleet23 = Entry(fleet_frame).grid(row = 3,column=4)
-entry_fleet24 = Entry(fleet_frame).grid(row = 3,column=5)
-entry_fleet31 = Entry(fleet_frame,width = 10).grid(row = 4,column=1)
-entry_fleet32 = Entry(fleet_frame).grid(row = 4,column=3)
-entry_fleet33 = Entry(fleet_frame).grid(row = 4,column=4)
-entry_fleet34 = Entry(fleet_frame).grid(row = 4,column=5)
-entry_fleet41 = Entry(fleet_frame,width = 10).grid(row = 5,column=1)
-entry_fleet42 = Entry(fleet_frame).grid(row = 5,column=3)
-entry_fleet43 = Entry(fleet_frame).grid(row = 5,column=4)
-entry_fleet44 = Entry(fleet_frame).grid(row = 5,column=5)
-entry_fleet51 = Entry(fleet_frame,width = 10).grid(row = 6,column=1)
-entry_fleet52 = Entry(fleet_frame).grid(row = 6,column=3)
-entry_fleet53 = Entry(fleet_frame).grid(row = 6,column=4)
-entry_fleet54 = Entry(fleet_frame).grid(row = 6,column=5)
-entry_fleet61 = Entry(fleet_frame,width = 10).grid(row = 7,column=1)
-entry_fleet62 = Entry(fleet_frame).grid(row = 7,column=3)
-entry_fleet63 = Entry(fleet_frame).grid(row = 7,column=4)
-entry_fleet64 = Entry(fleet_frame).grid(row = 7,column=5)
-entry_fleet71 = Entry(fleet_frame,width = 10).grid(row = 8,column=1)
-entry_fleet72 = Entry(fleet_frame).grid(row = 8,column=3)
-entry_fleet73 = Entry(fleet_frame).grid(row = 8,column=4)
-entry_fleet74 = Entry(fleet_frame).grid(row = 8,column=5)
-entry_fleet81 = Entry(fleet_frame,width = 10).grid(row = 9,column=1)
-entry_fleet82 = Entry(fleet_frame).grid(row = 9,column=3)
-entry_fleet83 = Entry(fleet_frame).grid(row = 9,column=4)
-entry_fleet84 = Entry(fleet_frame).grid(row = 9,column=5)
-entry_fleet91 = Entry(fleet_frame,width = 10).grid(row = 10,column=1)
-entry_fleet92 = Entry(fleet_frame).grid(row = 10,column=3)
+
+e_fleet11 = Entry(fleet_frame,
+	                  textvariable = IntVar(pol_frame),
+	                  width = 10,
+	                  bg = 'light blue').grid(row = 2,column=1)
+e_fleet12 = Entry(fleet_frame,
+	                  textvariable = DoubleVar(pol_frame),
+	                  bg = 'light blue').grid(row = 2,column=2)
+e_fleet13 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 2,column=3)
+e_fleet14 = Entry(fleet_frame,
+	              bg = 'light blue').grid(row = 2,column=4)
+e_fleet15 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 2,column=5)
+
+e_fleet21 = Entry(fleet_frame,
+	              textvariable = IntVar(pol_frame),
+	              width = 10,
+	              bg = 'light blue').grid(row = 3,column=1)
+e_fleet22 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 3,column=2)
+e_fleet23 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 3,column=3)
+e_fleet24 = Entry(fleet_frame,
+	              bg = 'light blue').grid(row = 3,column=4)
+e_fleet25 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 3,column=5)
+
+e_fleet31 = Entry(fleet_frame,
+	              textvariable = IntVar(pol_frame),
+	              width = 10,
+	              bg = 'light blue').grid(row = 4,column=1)
+e_fleet32 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 4,column=2)
+e_fleet33 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 4,column=3)
+e_fleet34 = Entry(fleet_frame,
+	              bg = 'light blue').grid(row = 4,column=4)
+e_fleet35 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 4,column=5)
+
+e_fleet41 = Entry(fleet_frame,
+	              textvariable = IntVar(pol_frame),
+	              width = 10,
+	              bg = 'light blue').grid(row = 5,column=1)
+e_fleet42 = Entry(fleet_frame,
+	               textvariable = DoubleVar(pol_frame),
+	               bg = 'light blue').grid(row = 5,column=2)
+e_fleet43 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 5,column=3)
+e_fleet44 = Entry(fleet_frame,
+	              bg = 'light blue').grid(row = 5,column=4)
+e_fleet45 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 5,column=5)
+
+e_fleet51 = Entry(fleet_frame,
+	               textvariable = IntVar(pol_frame),
+	               	bg = 'light blue',width = 10).grid(row = 6,column=1)
+e_fleet52 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 6,column=2)
+e_fleet53 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 6,column=3)
+e_fleet54 = Entry(fleet_frame,
+	              bg = 'light blue').grid(row = 6,column=4)
+e_fleet55 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 6,column=5)
+
+e_fleet61 = Entry(fleet_frame,
+	              textvariable = IntVar(pol_frame),
+	              width = 10,
+	              bg = 'light blue').grid(row = 7,column=1)
+e_fleet62 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 7,column=2)
+e_fleet63 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 7,column=3)
+e_fleet64 = Entry(fleet_frame,
+	              bg = 'light blue').grid(row = 7,column=4)
+e_fleet65 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 7,column=5)
+
+e_fleet71 = Entry(fleet_frame,
+	              textvariable = IntVar(pol_frame),
+	              bg = 'light blue',width = 10).grid(row = 8,column=1)
+e_fleet72 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 8,column=2)
+e_fleet73 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 8,column=3)
+e_fleet74 = Entry(fleet_frame,
+	              bg = 'light blue').grid(row = 8,column=4)
+e_fleet75 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 8,column=5)
+
+e_fleet81 = Entry(fleet_frame,
+	              textvariable = IntVar(pol_frame),
+	              width = 10,
+	              bg = 'light blue').grid(row = 9,column=1)
+e_fleet82 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 9,column=2)
+e_fleet83 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 9,column=3)
+e_fleet84 = Entry(fleet_frame,
+	              bg = 'light blue').grid(row = 9,column=4)
+e_fleet85 = Entry(fleet_frame,
+	              textvariable = DoubleVar(pol_frame),
+	              bg = 'light blue').grid(row = 9,column=5)
+
+e_fleet91 = Entry(fleet_frame,width = 10).grid(row = 10,column=1)
+e_fleet92 = Entry(fleet_frame).grid(row = 10,column=2)
+
 
 #----------------Cover Information----------------------------
 
@@ -191,7 +374,8 @@ menu_cover = OptionMenu(cover_frame,clicked_covertype,'Comprehensive'
 											  ,'Third Party Only'
 											  ,'Own Damage Only')
 menu_cover.grid(row = 1,column = 1,sticky = W)
-entry_liabilty = Entry(cover_frame).grid(row=2,column = 1,sticky = W)
+entry_liabilty = Entry(cover_frame,
+	                   bg = 'light blue').grid(row=2,column = 1,sticky = W)
 
 label_excess = Label(cover_frame,text = 'Excess',font = 'times 12 bold',anchor = "w")
 label_excess.grid(row = 3,column = 0,sticky = W)
@@ -211,12 +395,18 @@ label_thirdparty.grid(row = 7,column = 0,sticky = W)
 label_section2.grid(row =8 ,column = 0,sticky = W)
 label_lossofkeys.grid(row = 9,column = 0,sticky = W)
 
-entry_excess = Entry(cover_frame).grid(row = 4, column =1)
-entry_theft = Entry(cover_frame).grid(row = 5, column =1)
-entry_windscreen = Entry(cover_frame).grid(row = 6, column =1)
-entry_thirdparty = Entry(cover_frame).grid(row = 7, column =1)
-entry_section2 = Entry(cover_frame).grid(row = 8, column =1)
-entry_lossofkeys = Entry(cover_frame).grid(row = 9, column =1)
+entry_excess = Entry(cover_frame,
+	                 bg = 'light blue').grid(row = 4, column =1)
+entry_theft = Entry(cover_frame,
+	                bg = 'light blue').grid(row = 5, column =1)
+entry_windscreen = Entry(cover_frame,
+	                     bg = 'light blue').grid(row = 6, column =1)
+entry_thirdparty = Entry(cover_frame,
+	                     bg = 'light blue').grid(row = 7, column =1)
+entry_section2 = Entry(cover_frame,
+	                   bg = 'light blue').grid(row = 8, column =1)
+entry_lossofkeys = Entry(cover_frame,
+	                     bg = 'light blue').grid(row = 9, column =1)
 
 #-----------------Specified Vehicles-----------------------------
 label_specified = Label(specified_frame,text = 'Specified Vehicles',font = 'times 20 bold underline' )
@@ -224,7 +414,7 @@ label_specified.grid(row = 0,column = 0,sticky = W)
 
 label_showquote = Label(specified_frame,text = 'Show On Quote',font = 'times 11 bold ')
 label_showquote.grid(row =1, column =0,sticky = W)
-clicked_showquote = StringVar()
+clicked_showquote = IntVar()
 check_poltype = Checkbutton(specified_frame,variable=clicked_showquote)
 check_poltype.grid(row=1,column =1 ,sticky = W)
 
@@ -242,42 +432,73 @@ label_rate.grid(row = 2, column =4,sticky = W)
 label_annpremium.grid(row = 2, column =5,sticky = W)
 label_sasria_prem2.grid(row = 2, column =6,sticky = W)
 
-entry_spec11 = Entry(specified_frame).grid(row = 3, column = 1,sticky = W)
-entry_spec12 = Entry(specified_frame).grid(row = 3, column = 2,sticky = W)
-entry_spec13 = Entry(specified_frame).grid(row = 3, column = 3,sticky = W)
-entry_spec14 = Entry(specified_frame).grid(row = 3, column = 4,sticky = W)
-entry_spec15 = Entry(specified_frame).grid(row = 3, column = 5,sticky = W)
-entry_spec16 = Entry(specified_frame).grid(row = 3, column = 6,sticky = W)
-entry_spec21 = Entry(specified_frame).grid(row = 4, column = 1,sticky = W)
-entry_spec22 = Entry(specified_frame).grid(row = 4, column = 2,sticky = W)
-entry_spec23 = Entry(specified_frame).grid(row = 4, column = 3,sticky = W)
-entry_spec24 = Entry(specified_frame).grid(row = 4, column = 4,sticky = W)
-entry_spec25 = Entry(specified_frame).grid(row = 4, column = 5,sticky = W)
-entry_spec26 = Entry(specified_frame).grid(row = 4, column = 6,sticky = W)
-entry_spec31 = Entry(specified_frame).grid(row = 5, column = 1,sticky = W)
-entry_spec32 = Entry(specified_frame).grid(row = 5, column = 2,sticky = W)
-entry_spec33 = Entry(specified_frame).grid(row = 5, column = 3,sticky = W)
-entry_spec34 = Entry(specified_frame).grid(row = 5, column = 4,sticky = W)
-entry_spec35 = Entry(specified_frame).grid(row = 5, column = 5,sticky = W)
-entry_spec36 = Entry(specified_frame).grid(row = 5, column = 6,sticky = W)
-entry_spec41 = Entry(specified_frame).grid(row = 6, column = 1,sticky = W)
-entry_spec42 = Entry(specified_frame).grid(row = 6, column = 2,sticky = W)
-entry_spec43 = Entry(specified_frame).grid(row = 6, column = 3,sticky = W)
-entry_spec44 = Entry(specified_frame).grid(row = 6, column = 4,sticky = W)
-entry_spec45 = Entry(specified_frame).grid(row = 6, column = 5,sticky = W)
-entry_spec46 = Entry(specified_frame).grid(row = 6, column = 6,sticky = W)
-entry_spec51 = Entry(specified_frame).grid(row = 7, column = 1,sticky = W)
-entry_spec52 = Entry(specified_frame).grid(row = 7, column = 2,sticky = W)
-entry_spec53 = Entry(specified_frame).grid(row = 7, column = 3,sticky = W)
-entry_spec54 = Entry(specified_frame).grid(row = 7, column = 4,sticky = W)
-entry_spec55 = Entry(specified_frame).grid(row = 7, column = 5,sticky = W)
-entry_spec56 = Entry(specified_frame).grid(row = 7, column = 6,sticky = W)
+
+e_spec11 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 3, column = 1,sticky = W)
+e_spec12 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 3, column = 2,sticky = W)
+e_spec13 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 3, column = 3,sticky = W)
+e_spec14 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 3, column = 4,sticky = W)
+e_spec15 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 3, column = 5,sticky = W)
+e_spec16 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 3, column = 6,sticky = W)
+e_spec21 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 4, column = 1,sticky = W)
+e_spec22 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 4, column = 2,sticky = W)
+e_spec23 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 4, column = 3,sticky = W)
+e_spec24 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 4, column = 4,sticky = W)
+e_spec25 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 4, column = 5,sticky = W)
+e_spec26 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 4, column = 6,sticky = W)
+e_spec31 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 5, column = 1,sticky = W)
+e_spec32 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 5, column = 2,sticky = W)
+e_spec33 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 5, column = 3,sticky = W)
+e_spec34 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 5, column = 4,sticky = W)
+e_spec35 = Entry(specified_frame,
+	              bg = 'light blue').grid(row = 5, column = 5,sticky = W)
+e_spec36 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 5, column = 6,sticky = W)
+e_spec41 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 6, column = 1,sticky = W)
+e_spec42 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 6, column = 2,sticky = W)
+e_spec43 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 6, column = 3,sticky = W)
+e_spec44 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 6, column = 4,sticky = W)
+e_spec45 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 6, column = 5,sticky = W)
+e_spec46 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 6, column = 6,sticky = W)
+e_spec51 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 7, column = 1,sticky = W)
+e_spec52 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 7, column = 2,sticky = W)
+e_spec53 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 7, column = 3,sticky = W)
+e_spec54 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 7, column = 4,sticky = W)
+e_spec55 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 7, column = 5,sticky = W)
+e_spec56 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 7, column = 6,sticky = W)
 
 label_spectot = Label(specified_frame,text = 'Total ',font ='times 12 bold')
 label_spectot.grid(row = 8,column = 4,sticky = W)
 
-entry_spec64 = Entry(specified_frame).grid(row = 8,column = 5)
-entry_spec65 = Entry(specified_frame).grid(row = 8,column = 6)
+e_spec64 = Entry(specified_frame).grid(row = 8,column = 5)
+e_spec65 = Entry(specified_frame).grid(row = 8,column = 6)
 
 label_excess2 = Label(specified_frame,text = 'Excess',font = 'times 12 bold',anchor = "w")
 label_excess2.grid(row = 9,column = 0,sticky = W)
@@ -297,12 +518,18 @@ label_thirdparty2.grid(row = 13,column = 0,sticky = W)
 label_section22.grid(row =14 ,column = 0,sticky = W)
 label_lossofkeys2.grid(row = 15,column = 0,sticky = W)
 
-entry_excess2 = Entry(specified_frame).grid(row = 10, column =1)
-entry_theft2 = Entry(specified_frame).grid(row = 11, column =1)
-entry_windscreen2 = Entry(specified_frame).grid(row = 12, column =1)
-entry_thirdparty2 = Entry(specified_frame).grid(row = 13, column =1)
-entry_section22 = Entry(specified_frame).grid(row = 14, column =1)
-entry_lossofkeys2 = Entry(specified_frame).grid(row = 15, column =1)
+e_excess2 = Entry(specified_frame,
+	              bg = 'light blue').grid(row = 10, column =1)
+e_theft2 = Entry(specified_frame,
+	             bg = 'light blue').grid(row = 11, column =1)
+e_windscreen2 = Entry(specified_frame,
+	                  bg = 'light blue').grid(row = 12, column =1)
+e_thirdparty2 = Entry(specified_frame,
+	                  bg = 'light blue').grid(row = 13, column =1)
+e_section22 = Entry(specified_frame,
+	                bg = 'light blue').grid(row = 14, column =1)
+e_lossofkeys2 = Entry(specified_frame,
+	                  bg = 'light blue').grid(row = 15, column =1)
 
 
 #---------------------------Rating Info------------------------------
@@ -324,7 +551,7 @@ label_totalclaims = Label(rating_frame,text = 'Total claims YTD: ',font = 'times
 label_numofmonths = Label(rating_frame,text = 'No. of months remaining before renewal: ',font = 'times 12 bold')
 label_annclaims = Label(rating_frame,text = 'Annualised Claims: ',font = 'times 12 bold')
 
-label_ratinginfo.grid(row =0,column = 0,columnspan = 2,sticky = W)
+label_ratinginfo.grid(row =0,column = 0,sticky = W)
 label_fleetvalue.grid(row = 1,column = 0,sticky = W)
 label_priorclaims.grid(row = 2,column = 0,sticky = W)
 label_totalclaims.grid(row = 3,column = 0,sticky = W)

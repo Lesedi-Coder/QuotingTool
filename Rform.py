@@ -5,7 +5,7 @@ from tkinter import *
 # globally declare wb and sheet variable 
   
 # opening the existing excel file 
-wb = load_workbook('C:/Users/SammyM/Documents/Lombard/Project1/Building/excel.xlsx') 
+wb = load_workbook('C:/Users/LesediM/Documents/LombardProjects/Project2/Tool/QuotingTool/excel.xlsx') 
   
 # create the sheet object 
 sheet = wb.active 
@@ -90,12 +90,12 @@ def insert():
       
     # if user not fill any entry 
     # then print "empty input" 
-    if (name_field.get() == "" and
+    if (name_field.get() == "" or
         course_field.get() == "" and
-        sem_field.get() == "" and
-        form_no_field.get() == "" and
-        contact_no_field.get() == "" and
-        email_id_field.get() == "" and
+        sem_field.get() == "" or
+        form_no_field.get() == "" or
+        contact_no_field.get() == "" or
+        email_id_field.get() == "" or
         address_field.get() == ""): 
               
         print("empty input") 
@@ -120,7 +120,7 @@ def insert():
         sheet.cell(row=current_row + 1, column=7).value = address_field.get() 
   
         # save the file 
-        wb.save('C:/Users/SammyM/Documents/Lombard/Project1/Building/excel.xlsx') 
+        wb.save('C:/Users/LesediM/Documents/LombardProjects/Project2/Tool/QuotingTool/excel.xlsx') 
   
         # set focus on the name_field box 
         name_field.focus_set() 

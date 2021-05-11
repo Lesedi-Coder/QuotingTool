@@ -5,10 +5,8 @@ from tkinter import messagebox
 from tkcalendar import *
 import fpdf
 from fpdf import FPDF
-
-
-HEIGHT = 1000
-WIDTH = 1000
+from tkinter import ttk
+import numpy as np
 
 
 root = Tk()
@@ -18,7 +16,7 @@ root.iconbitmap("C:/Users/LesediM/Desktop/New/LI.ico")
 frame = Frame(root)
 frame.pack(fill = BOTH,expand = 1)
 
-my_canvas = Canvas(frame, height = HEIGHT,width = WIDTH)
+my_canvas = Canvas(frame)
 my_canvas.pack(side = LEFT,fill = BOTH, expand = 1)
 
 my_yscrollbar = ttk.Scrollbar(frame, orient = VERTICAL,command = my_canvas.yview)
@@ -42,10 +40,10 @@ fleet_frame = ttk.Frame(policyinfo_frame)
 cover_frame = ttk.Frame(policyinfo_frame)
 specified_frame = ttk.Frame(policyinfo_frame)
 
-pol_frame.grid(row = 0, column =0,sticky = W)
-fleet_frame.grid(row = 1, column =0,sticky = W)
-cover_frame.grid(row = 2, column =0,sticky = W)
-specified_frame.grid(row = 3, column =0,sticky = W)
+pol_frame.grid(sticky = 'W')
+fleet_frame.grid(sticky = 'W')
+cover_frame.grid(sticky = 'W')
+specified_frame.grid(sticky = 'W')
 
 
 
@@ -57,35 +55,337 @@ user_inputinsured = StringVar(pol_frame)
 user_inputpolno = StringVar(pol_frame)
 user_inputdesc = StringVar(pol_frame)
 user_inputoper = StringVar(pol_frame)
+user_units = IntVar(pol_frame)
+user_value = DoubleVar(pol_frame)
+
+user_f11 = IntVar(pol_frame)
+user_f21 = IntVar(pol_frame)
+user_f31 = IntVar(pol_frame)
+user_f41 = IntVar(pol_frame)
+user_f51 = IntVar(pol_frame)
+user_f61 = IntVar(pol_frame)
+user_f71 = IntVar(pol_frame)
+user_f81 = IntVar(pol_frame)
+
+user_f12 = DoubleVar(pol_frame)
+user_f22 = DoubleVar(pol_frame)
+user_f32 = DoubleVar(pol_frame)
+user_f42 = DoubleVar(pol_frame)
+user_f52 = DoubleVar(pol_frame)
+user_f62 = DoubleVar(pol_frame)
+user_f72 = DoubleVar(pol_frame)
+user_f82 = DoubleVar(pol_frame)
+
+user_f13 = DoubleVar(pol_frame)
+user_f23 = DoubleVar(pol_frame)
+user_f33 = DoubleVar(pol_frame)
+user_f43 = DoubleVar(pol_frame)
+user_f53 = DoubleVar(pol_frame)
+user_f63 = DoubleVar(pol_frame)
+user_f73 = DoubleVar(pol_frame)
+user_f83 = DoubleVar(pol_frame)
+
+user_f15 = DoubleVar(pol_frame)
+user_f25 = DoubleVar(pol_frame)
+user_f35 = DoubleVar(pol_frame)
+user_f45 = DoubleVar(pol_frame)
+user_f55 = DoubleVar(pol_frame)
+user_f65 = DoubleVar(pol_frame)
+user_f75 = DoubleVar(pol_frame)
+user_f85 = DoubleVar(pol_frame)
+
+# ------------------Specified Entries-------------------
+user_s13 = DoubleVar(specified_frame)
+user_s23 = DoubleVar(specified_frame)
+user_s33 = DoubleVar(specified_frame)
+user_s43 = DoubleVar(specified_frame)
+user_s53 = DoubleVar(specified_frame)
+
+user_s14 = DoubleVar(specified_frame)
+user_s24 = DoubleVar(specified_frame)
+user_s34 = DoubleVar(specified_frame)
+user_s44 = DoubleVar(specified_frame)
+user_s54 = DoubleVar(specified_frame)
+
+user_s15 = DoubleVar(specified_frame)
+user_s25 = DoubleVar(specified_frame)
+user_s35 = DoubleVar(specified_frame)
+user_s45 = DoubleVar(specified_frame)
+user_s55 = DoubleVar(specified_frame)
+user_s65 = DoubleVar(specified_frame)
+
+user_s16 = DoubleVar(specified_frame)
+user_s26 = DoubleVar(specified_frame)
+user_s36 = DoubleVar(specified_frame)
+user_s46 = DoubleVar(specified_frame)
+user_s56 = DoubleVar(specified_frame)
+user_s66 = DoubleVar(specified_frame)
+def add_spec():
+
+	annprem_s15 = ((user_s13.get()
+		           *user_s14.get())/100)
+	annprem_s25 = ((user_s23.get()
+		           *user_s24.get())/100)
+	annprem_s35 = ((user_s33.get()
+		           *user_s34.get())/100)
+	annprem_s45 = ((user_s43.get()
+		           *user_s44.get())/100)
+	annprem_s55 = ((user_s53.get()
+		           *user_s54.get())/100)		           	
+	total_annprem = (annprem_s15 +
+		             annprem_s25 +
+		             annprem_s35 + 
+	                 annprem_s45 +
+	                 annprem_s55)
+	total_sasprem = (user_s16.get()+
+	                 user_s26.get()+
+	                 user_s36.get()+
+	                 user_s46.get()+
+	                 user_s56.get())
+	user_s15.set(annprem_s15)
+	user_s25.set(annprem_s25)
+	user_s35.set(annprem_s35)
+	user_s45.set(annprem_s45)
+	user_s55.set(annprem_s55)
+	user_s65.set(total_annprem)
+	user_s66.set(total_sasprem)              
+
+def add_fleet():
+	total_units = (user_f11.get()+
+	              user_f21.get()+
+	              user_f31.get()+
+	              user_f41.get()+
+	              user_f51.get()+
+	              user_f61.get()+
+	              user_f71.get()+
+	              user_f81.get())
+
+	total_values = (user_f12.get()+
+	                user_f22.get()+
+	                user_f32.get()+
+	                user_f42.get()+
+	                user_f52.get()+
+	                user_f62.get()+
+	                user_f72.get()+
+	                user_f82.get())	
+	txt_fleet91.configure(state = NORMAL)
+	txt_fleet91.delete(1.0,END)
+	txt_fleet91.insert(END,f"{total_units}")
+	txt_fleet91.configure(state = DISABLED)
+
+	txt_fleet92.configure(state = NORMAL)
+	txt_fleet92.delete(1.0,END)
+	txt_fleet92.insert(END,f"R{np.round(total_values,2)}")
+	txt_fleet92.configure(state = DISABLED)
+
+	M1 = 0.0
+	M2 = 0.0
+	M3 = 0.0
+	M4 = 0.0
+	M5 = 0.0
+	M6 = 0.0
+	M7 = 0.0
+	M8 = 0.0
+
+
+
+	if(clicked_poltype.get()=="Annual"):
+		M1  = 20.18
+		M2 = 45.39
+		M3 = 45.39
+		if(user_f41.get()!=0 and user_f42.get() !=0):
+			if (M4 < 100 and M4 >0):
+				M4 = 100
+			else:
+				M4 = (total_values*0.00868)/100
+		if(user_f51.get()!=0 and user_f52.get() !=0):
+			if(M5 < 2000 and M5 > 0):
+				M5 = 2000
+			else:
+				M5 = (total_values*0.504)/100
+		if(user_f61.get()!=0 and user_f62.get() !=0):
+			if(M6 < 200 and M5 > 0):
+				M6 = 200 
+			else:
+				M6 = (total_values*0.0363)/100 
+		if(user_f81.get()!=0 and user_f82 !=0):
+			if(M8 < 54.47 and M4 > 0):
+				M8 = 54.47 
+			else:
+				M8 = (total_values*0.01879)/100
+
+	if (clicked_poltype.get() =="Monthly"):
+		M1  = 2.02
+		M2 = 4.54
+		M3 = 4.54
+
+		if (M4 < 10 and M4 >0):
+			M4 = 10
+
+		if(M5 < 200 and M5 > 0):
+			M5 = 200
+
+		if(M6 < 200 and M6 > 0):
+			M6 = 200 
+
+		if(M8 < 5.45 and M8 >0):
+			M8 = 5.45 
+	R1 = M1 *user_f11.get()
+	R2 = M2 * user_f21.get()
+	R3 = M3 *user_f31.get()
+	R4 = M4
+	R5 = M5
+	R6 = M6
+	R7 = M7
+	R8 = M8		
+			
+	txt_fleet15.configure(state = NORMAL)
+	txt_fleet15.delete(1.0,END)
+	txt_fleet15.insert(END,f"R{np.round(R1,2)}")
+	txt_fleet15.configure(state = DISABLED)
+
+	txt_fleet25.configure(state = NORMAL)
+	txt_fleet25.delete(1.0,END)
+	txt_fleet25.insert(END,f"R{np.round(R2,2)}")
+	txt_fleet25.configure(state = DISABLED)
+
+	txt_fleet35.configure(state = NORMAL)
+	txt_fleet35.delete(1.0,END)
+	txt_fleet35.insert(END,f"R{np.round(R3,2)}")
+	txt_fleet35.configure(state = DISABLED)
+
+	if (total_values == "R0.0"):
+		if(user_f41.get() == 0 and user_f42.get() ==0):
+			R4 = 0
+			txt_fleet45.configure(state = NORMAL)
+			txt_fleet45.delete(1.0,END)
+			txt_fleet45.insert(END,f"R{np.round(R4,2)}")
+			txt_fleet45.configure(state = DISABLED)
+		else:
+			txt_fleet45.configure(state = NORMAL)
+			txt_fleet45.delete(1.0,END)
+			txt_fleet45.insert(END,f"R{np.round(R4,2)}")
+			txt_fleet45.configure(state = DISABLED)
+
+		if (user_f51.get() == 0 and user_f52.get() ==0):
+			R5 = 0
+			txt_fleet45.configure(state = NORMAL)
+			txt_fleet45.delete(1.0,END)
+			txt_fleet45.insert(END,f"R{np.round(R5,2)}")
+			txt_fleet45.configure(state = DISABLED)
+		else:
+			txt_fleet45.configure(state = NORMAL)
+			txt_fleet45.delete(1.0,END)
+			txt_fleet45.insert(END,f"R{np.round(R5,2)}")
+			txt_fleet45.configure(state = DISABLED)	
+
+		if (user_f61.get() == 0 and user_f62.get() ==0):
+			R6 = 0
+			txt_fleet45.configure(state = NORMAL)
+			txt_fleet45.delete(1.0,END)
+			txt_fleet45.insert(END,f"R{np.round(R6,2)}")
+			txt_fleet45.configure(state = DISABLED)
+		else:
+			txt_fleet45.configure(state = NORMAL)
+			txt_fleet45.delete(1.0,END)
+			txt_fleet45.insert(END,f"R{np.round(R6,2)}")
+			txt_fleet45.configure(state = DISABLED)
+
+		if (user_f81.get() == 0 and user_f82.get() ==0):
+			R8 = 0
+			txt_fleet45.configure(state = NORMAL)
+			txt_fleet45.delete(1.0,END)
+			txt_fleet45.insert(END,f"R{np.round(R8,2)}")
+			txt_fleet45.configure(state = DISABLED)
+		else:
+			txt_fleet45.configure(state = NORMAL)
+			txt_fleet45.delete(1.0,END)
+			txt_fleet45.insert(END,f"R{np.round(R8,2)}")
+			txt_fleet45.configure(state = DISABLED)		
+
+	else:
+		txt_fleet45.configure(state = NORMAL)
+		txt_fleet45.delete(1.0,END)
+		txt_fleet45.insert(END,f"R{np.round(R4,2)}")
+		txt_fleet45.configure(state = DISABLED)
+
+		txt_fleet55.configure(state = NORMAL)
+		txt_fleet55.delete(1.0,END)
+		txt_fleet55.insert(END,f"R{np.round(R5,2)}")
+		txt_fleet55.configure(state = DISABLED)
+
+		txt_fleet65.configure(state = NORMAL)
+		txt_fleet65.delete(1.0,END)
+		txt_fleet65.insert(END,f"R{np.round(R6,2)}")
+		txt_fleet65.configure(state = DISABLED)
+
+		txt_fleet75.configure(state = NORMAL)
+		txt_fleet75.delete(1.0,END)
+		txt_fleet75.insert(END,f"R{np.round(R7,2)}")
+		txt_fleet75.configure(state = DISABLED)
+
+		txt_fleet85.configure(state = NORMAL)
+		txt_fleet85.delete(1.0,END)
+		txt_fleet85.insert(END,f"R{np.round(R8,2)}")
+		txt_fleet85.configure(state = DISABLED)	
+
 
 def validation():
+	dictionary = []
 
 	if (user_inputinsured.get() == "" or
-	    user_inputpolno.get()=="" or
-	    user_inputdesc.get()  == "" or
-	    user_inputoper.get() == ""):
+	    user_inputpolno.get()==""):
 		messagebox.showwarning('Missng Entries','Please enter missing entries')
+	elif(clicked_type.get() == 'Select Option'):
+			messagebox.showwarning('Date correlation','Please select the type of quote')
 
+	elif(clicked_poltype.get() == 'Select Option'):
+		messagebox.showwarning('Date correlation','Please select the type of policy')			
+
+	elif(e_policyinception.get_date() > e_periodfrom.get_date()):
+		messagebox.showwarning('Date correlation',
+			                   'Policy inception date cannot be after starting period date. Please correct it')
+	elif(e_periodfrom.get_date() > e_periodto.get_date()):
+		messagebox.showwarning('Date correlation',
+			                   'Starting period date cannot be after the ending period date. Please correct it')
 
 	elif (user_inputpolno.get().isdigit()):
 		pdf = FPDF()
 		pdf.add_page()
 		pdf.set_font('Arial','B',11)
 		# pdf.cell(20,20,my_img,0,1,'C')
-		pdf.cell(10,10,f"Type of quote:\t\t\t{clicked_type.get()}",0,1,'L')
-		pdf.cell(10,10,f"Date of quote:\t\t\t{entry_dateofquote.selection_get()}",0,1,'L')
-		pdf.cell(10,10,f"Insured:\t\t\t{user_inputinsured.get()}",0,1,'L')
-		pdf.cell(10,10,f"Policy No:\t\t\t{user_inputpolno.get()}",0,1,'L')
-		pdf.cell(10,10,f"Policy Inception:\t\t\t{entry_policyinception.selection_get()}",
+		pdf.cell(10,
+			     10,
+			     f"Type of quote:\t           {clicked_type.get()}",0,1,'L')
+		pdf.cell(10,
+			     10,
+			     f"Date of quote:\t            {e_dateofquote.get_date()}",0,1,'L')
+		pdf.cell(10,
+			     10,
+			     f"Insured:\t                      {user_inputinsured.get()}",0,1,'L')
+		pdf.cell(10,
+			     10,
+			     f"Policy No:\t                   {user_inputpolno.get()}",0,1,'L')
+		pdf.cell(10,
+			     10,
+			     f"Policy Inception:\t        {e_policyinception.get_date()}",
 			     0,1,'L')
 		pdf.cell(10,
 			     10,
-			     f"Period Of Insurance:\t\t\t{enrty_periodfrom.selection_get()} to {entry_periodto.selection_get()}",
+			     f"Period Of Insurance:\t  {e_periodfrom.get_date()}\
+				 to {e_periodto.get_date()}",
 			     0,1,'L')
-		pdf.cell(10,10,f"Policy Type:\t\t\t{clicked_poltype.get()}",0,1,'L')
-		pdf.cell(10,10,f"Business Description:\t\t\t{user_inputdesc.get()}",0,1,'L')
-		pdf.cell(10,10,f"Key Area Of Operation:\t\t\t{user_inputoper.get()}",0,1,'L')
-
+		pdf.cell(10,
+			     10,
+			     f"Policy Type:\t               {clicked_poltype.get()}",0,1,'L')
+		if(user_inputdesc.get()!=""):
+			pdf.cell(10,10,f"Business Description:\t            \
+				    {user_inputdesc.get()}",0,1,'L')	
+		if( user_inputoper.get()!=""):
+			pdf.cell(10,
+				     10,
+				     f"Key Area Of Operation:\t            \
+				     {user_inputoper.get()}",0,1,'L')			
 
 		pdf.output('Quote.pdf','F')
 
@@ -125,7 +425,7 @@ label_description.grid(row = 9,column = 0,sticky = W)
 label_operation.grid(row = 10,column = 0,sticky = W)
 
 #Text boxes for policyholder information
-e_dateofquote = Calendar(pol_frame,selectmode = "day",year = 2020,month =5,day = 1)
+e_dateofquote = DateEntry(pol_frame)
 e_dateofquote.grid(row = 3,column = 1) 
 
 e_insured = Entry(pol_frame,textvariable = user_inputinsured,bg = 'light blue')
@@ -136,14 +436,14 @@ e_policyno = Entry(pol_frame,
 	               bg = 'light blue')
 e_policyno.grid(row =5,column = 1)
 
-e_policyinception = Calendar(pol_frame,selectmode = "day",year = 2020,month =5,day = 1)
+e_policyinception = DateEntry(pol_frame)
 e_policyinception.grid(row =6,column = 1)
 
 
-e_periodfrom = Calendar(pol_frame,selectmode = "day",year = 2020,month =5,day = 1)
+e_periodfrom = DateEntry(pol_frame)
 e_periodfrom.grid(row = 7,column =1)
 
-e_periodto = Calendar(pol_frame,selectmode = "day",year = 2020,month =5,day = 1)
+e_periodto = DateEntry(pol_frame)
 e_periodto.grid(row = 7,column = 3)
 
 e_description = Entry(pol_frame,
@@ -158,12 +458,12 @@ e_operation.grid(row =10,column = 1)
 
 #Dropdown menus for policy information
 clicked_type = StringVar(pol_frame)
-clicked_type.set('Renewal')
+clicked_type.set('Select Option')
 menu_type = OptionMenu(pol_frame, clicked_type,'Renewal','New Business')
 menu_type.grid(row=2,column = 1)
 
 clicked_poltype = StringVar(pol_frame)
-clicked_poltype.set('Annual')
+clicked_poltype.set('Select Option')
 menu_poltype = OptionMenu(pol_frame, clicked_poltype,'Annual','Monthly')
 menu_poltype.grid(row=8,column = 1)
 
@@ -185,7 +485,7 @@ label_cars = Label(fleet_frame,text ='Cars- Single Vehicles',
 	               font = 'times 12')
 label_motorcycles = Label(fleet_frame,text ='Motorcycles',
 	                      font = 'times 12')
-label_ldvs = Label(fleet_frame,text ='LDVs',font = 'times 12',anchor = "w")
+label_ldvs = Label(fleet_frame,text ='LDVs',font = 'times 12')
 label_commercial = Label(fleet_frame,
 	                     text ='Commercial Vehicles(Mass ≥ 3500kg)',
 	                     font = 'times 12')
@@ -194,11 +494,12 @@ label_busses = Label(fleet_frame,text ='Busses',
 label_mobile = Label(fleet_frame,text ='Mobile Plants ',font = 'times 12')
 label_specialless = Label(fleet_frame,
 	                      text ='Special Types < 3500kg(incl Trailers and Forklifts)',
-	                      font = 'times 12',anchor = "w")
+	                      font = 'times 12')
 label_specialmore = Label(fleet_frame,
 	                      text ='Special Types > 3500kg(incl Trailers and Forklifts)',
-	                      font = 'times 12',anchor = "w")
-label_total = Label(fleet_frame,text ='Total',font = 'times 12 bold underline',anchor = "w")
+	                      font = 'times 12')
+label_total = Label(fleet_frame,text ='Total',
+	                font = 'times 12 bold underline')
 
 
 #Place labels on grid for fleet information
@@ -226,134 +527,188 @@ label_sasria_des.grid(row = 1,column = 4)
 label_sasria_prem.grid(row = 1,column = 5)
 
 
-e_fleet11 = Entry(fleet_frame,
-	                  textvariable = IntVar(pol_frame),
+txt_fleet11 = Entry(fleet_frame,
+	                  textvariable = user_f11,
 	                  width = 10,
 	                  bg = 'light blue').grid(row = 2,column=1)
-e_fleet12 = Entry(fleet_frame,
-	                  textvariable = DoubleVar(pol_frame),
+txt_fleet12 = Entry(fleet_frame,
+	                  textvariable = user_f12,
 	                  bg = 'light blue').grid(row = 2,column=2)
-e_fleet13 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet13 = Entry(fleet_frame,
+	              textvariable = user_f13,
 	              bg = 'light blue').grid(row = 2,column=3)
-e_fleet14 = Entry(fleet_frame,
-	              bg = 'light blue').grid(row = 2,column=4)
-e_fleet15 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
-	              bg = 'light blue').grid(row = 2,column=5)
+txt_fleet14 = Text(fleet_frame,
+	               height = 0.1,
+	               width = 36)
+txt_fleet14.insert(INSERT,"Cars(Primary use: Domestic/ private)")
+txt_fleet14.configure(state = 'disabled')
+txt_fleet14.grid(row = 2,column=4)
 
-e_fleet21 = Entry(fleet_frame,
-	              textvariable = IntVar(pol_frame),
+txt_fleet15 = Text(fleet_frame,
+	              width = 18,
+	              height = 0.1)
+txt_fleet15.grid(row = 2,column=5)
+
+txt_fleet21 = Entry(fleet_frame,
+	              textvariable = user_f21,
 	              width = 10,
 	              bg = 'light blue').grid(row = 3,column=1)
-e_fleet22 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet22 = Entry(fleet_frame,
+	              textvariable = user_f22,
 	              bg = 'light blue').grid(row = 3,column=2)
-e_fleet23 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet23 = Entry(fleet_frame,
+	              textvariable = user_f23,
 	              bg = 'light blue').grid(row = 3,column=3)
-e_fleet24 = Entry(fleet_frame,
-	              bg = 'light blue').grid(row = 3,column=4)
-e_fleet25 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
-	              bg = 'light blue').grid(row = 3,column=5)
+txt_fleet24 = Text(fleet_frame,
+	               height = 0.1,
+	               width = 36)
+txt_fleet24.insert(INSERT,"LDV(Commercial use")
+txt_fleet24.configure(state = 'disabled')
+txt_fleet24.grid(row = 3,column=4)
 
-e_fleet31 = Entry(fleet_frame,
-	              textvariable = IntVar(pol_frame),
+txt_fleet25 = Text(fleet_frame,
+	              width = 18,
+	              height = 0.1)
+txt_fleet25.grid(row = 3,column=5)
+
+txt_fleet31 = Entry(fleet_frame,
+	              textvariable = user_f31,
 	              width = 10,
 	              bg = 'light blue').grid(row = 4,column=1)
-e_fleet32 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet32 = Entry(fleet_frame,
+	              textvariable = user_f32,
 	              bg = 'light blue').grid(row = 4,column=2)
-e_fleet33 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet33 = Entry(fleet_frame,
+	              textvariable = user_f33,
 	              bg = 'light blue').grid(row = 4,column=3)
-e_fleet34 = Entry(fleet_frame,
-	              bg = 'light blue').grid(row = 4,column=4)
-e_fleet35 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
-	              bg = 'light blue').grid(row = 4,column=5)
+txt_fleet34 = Text(fleet_frame,
+	               height = 0.1,
+	               width = 36)
+txt_fleet34.insert(END,"LDV(Commercial use)")
+txt_fleet34.configure(state = 'disabled')
+txt_fleet34.grid(row = 4,column=4)
 
-e_fleet41 = Entry(fleet_frame,
-	              textvariable = IntVar(pol_frame),
+txt_fleet35 =Text(fleet_frame,
+	              width = 18,
+	              height = 0.1)
+txt_fleet35.grid(row = 4,column=5)
+
+txt_fleet41 = Entry(fleet_frame,
+	              textvariable = user_f41,
 	              width = 10,
 	              bg = 'light blue').grid(row = 5,column=1)
-e_fleet42 = Entry(fleet_frame,
-	               textvariable = DoubleVar(pol_frame),
+txt_fleet42 = Entry(fleet_frame,
+	               textvariable = user_f42,
 	               bg = 'light blue').grid(row = 5,column=2)
-e_fleet43 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet43 = Entry(fleet_frame,
+	              textvariable = user_f43,
 	              bg = 'light blue').grid(row = 5,column=3)
-e_fleet44 = Entry(fleet_frame,
-	              bg = 'light blue').grid(row = 5,column=4)
-e_fleet45 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
-	              bg = 'light blue').grid(row = 5,column=5)
+txt_fleet44 = Text(fleet_frame,
+	               height = 0.1,
+	               width = 36)
+txt_fleet44.insert(INSERT,"Heavy Commercial Vehicles (>3,500kg)")
+txt_fleet44.configure(state = 'disabled')
+txt_fleet44.grid(row = 5,column=4)
 
-e_fleet51 = Entry(fleet_frame,
-	               textvariable = IntVar(pol_frame),
+txt_fleet45 = Text(fleet_frame,
+	              width = 18,
+	              height = 0.1)
+txt_fleet45.grid(row = 5,column=5)
+
+txt_fleet51 = Entry(fleet_frame,
+	               textvariable = user_f51,
 	               	bg = 'light blue',width = 10).grid(row = 6,column=1)
-e_fleet52 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet52 = Entry(fleet_frame,
+	              textvariable = user_f52,
 	              bg = 'light blue').grid(row = 6,column=2)
-e_fleet53 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet53 = Entry(fleet_frame,
+	              textvariable = user_f53,
 	              bg = 'light blue').grid(row = 6,column=3)
-e_fleet54 = Entry(fleet_frame,
-	              bg = 'light blue').grid(row = 6,column=4)
-e_fleet55 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
-	              bg = 'light blue').grid(row = 6,column=5)
+txt_fleet54 = Text(fleet_frame,
+	               height = 0.1,
+	               width = 36)
+txt_fleet54.insert(INSERT,"Buses")
+txt_fleet54.configure(state = 'disabled')
+txt_fleet54.grid(row = 6,column=4)
+txt_fleet55 = Text(fleet_frame,
+	              width = 18,
+	              height = 0.1)
+txt_fleet55.grid(row = 6,column=5)
 
-e_fleet61 = Entry(fleet_frame,
-	              textvariable = IntVar(pol_frame),
+txt_fleet61 = Entry(fleet_frame,
+	              textvariable = user_f61,
 	              width = 10,
 	              bg = 'light blue').grid(row = 7,column=1)
-e_fleet62 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet62 = Entry(fleet_frame,
+	              textvariable = user_f62,
 	              bg = 'light blue').grid(row = 7,column=2)
-e_fleet63 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet63 = Entry(fleet_frame,
+	              textvariable = user_f63,
 	              bg = 'light blue').grid(row = 7,column=3)
-e_fleet64 = Entry(fleet_frame,
-	              bg = 'light blue').grid(row = 7,column=4)
-e_fleet65 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
-	              bg = 'light blue').grid(row = 7,column=5)
+txt_fleet64 = Text(fleet_frame,
+	               height = 0.1,
+	               width = 36)
+txt_fleet64.insert(INSERT,"Mobile Plant")
+txt_fleet64.configure(state = 'disabled')
+txt_fleet64.grid(row = 7,column=4)
+txt_fleet65 =Text(fleet_frame,
+	              width = 18,
+	              height = 0.1)
+txt_fleet65.grid(row = 7,column=5)
 
-e_fleet71 = Entry(fleet_frame,
-	              textvariable = IntVar(pol_frame),
+txt_fleet71 = Entry(fleet_frame,
+	              textvariable = user_f71,
 	              bg = 'light blue',width = 10).grid(row = 8,column=1)
-e_fleet72 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet72 = Entry(fleet_frame,
+	              textvariable = user_f72,
 	              bg = 'light blue').grid(row = 8,column=2)
-e_fleet73 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet73 = Entry(fleet_frame,
+	              textvariable = user_f73,
 	              bg = 'light blue').grid(row = 8,column=3)
-e_fleet74 = Entry(fleet_frame,
-	              bg = 'light blue').grid(row = 8,column=4)
-e_fleet75 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
-	              bg = 'light blue').grid(row = 8,column=5)
+txt_fleet74 = Text(fleet_frame,
+	               height = 0.1,
+	               width = 36)
+txt_fleet74.insert(INSERT,"LDV(Commercial use)")
+txt_fleet74.configure(state = 'disabled')
+txt_fleet74.grid(row = 8,column=4)
+txt_fleet75 = Text(fleet_frame,
+	              width = 18,
+	              height = 0.1)
+txt_fleet75.grid(row = 8,column=5)
 
-e_fleet81 = Entry(fleet_frame,
-	              textvariable = IntVar(pol_frame),
+txt_fleet81 = Entry(fleet_frame,
+	              textvariable = user_f81,
 	              width = 10,
 	              bg = 'light blue').grid(row = 9,column=1)
-e_fleet82 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet82 = Entry(fleet_frame,
+	              textvariable = user_f82,
 	              bg = 'light blue').grid(row = 9,column=2)
-e_fleet83 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
+txt_fleet83 = Entry(fleet_frame,
+	              textvariable = user_f83,
 	              bg = 'light blue').grid(row = 9,column=3)
-e_fleet84 = Entry(fleet_frame,
-	              bg = 'light blue').grid(row = 9,column=4)
-e_fleet85 = Entry(fleet_frame,
-	              textvariable = DoubleVar(pol_frame),
-	              bg = 'light blue').grid(row = 9,column=5)
+txt_fleet84 = Text(fleet_frame,
+	               height = 0.1,
+	               width = 36)
+txt_fleet84.insert(INSERT,"Heavy Commercial(>3,500kg)")
+txt_fleet84.configure(state = 'disabled')
+txt_fleet84.grid(row = 9,column=4)
+txt_fleet85 = Text(fleet_frame,
+	              width = 18,
+	              height = 0.1)
+txt_fleet85
+txt_fleet85.grid(row = 9,column=5)
 
-e_fleet91 = Entry(fleet_frame,width = 10).grid(row = 10,column=1)
-e_fleet92 = Entry(fleet_frame).grid(row = 10,column=2)
+txt_fleet91 = Text(fleet_frame,
+	              width = 8,
+	              height = 0.1)
+txt_fleet91.grid(row = 10,column=1)
+txt_fleet92 = Text(fleet_frame,
+	               width =15,
+	               height = 0.1)
+txt_fleet92.grid(row = 10,column=2)
+
+button_totfleet = Button(fleet_frame, text="Total", command=add_fleet)
+button_totfleet.grid(row = 10, column = 3)
 
 
 #----------------Cover Information----------------------------
@@ -435,70 +790,139 @@ label_sasria_prem2.grid(row = 2, column =6,sticky = W)
 
 e_spec11 = Entry(specified_frame,
 	             bg = 'light blue').grid(row = 3, column = 1,sticky = W)
-e_spec12 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 3, column = 2,sticky = W)
+clicked_cat1 = StringVar(specified_frame)
+clicked_cat1.set('Select Option           ')
+menu_cat1 = OptionMenu(specified_frame,
+                       clicked_cat1,
+                       'Cars)Primary use:Domestic/private)',
+                       'LDV(Commercial use)',
+                       'Taxi(7-24)',
+                       'Motor Traders',
+                       'Buses',
+                       'Mobile Plant',
+                       'BRT',
+                       'Heavy Vehichles(>3,500kg)').grid(row=3,column = 2)
+
 e_spec13 = Entry(specified_frame,
+	             textvariable = user_s13,
 	             bg = 'light blue').grid(row = 3, column = 3,sticky = W)
 e_spec14 = Entry(specified_frame,
+	             textvariable = user_s14,
 	             bg = 'light blue').grid(row = 3, column = 4,sticky = W)
 e_spec15 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 3, column = 5,sticky = W)
+	             textvariable = user_s15).grid(row = 3, column = 5,sticky = W)
 e_spec16 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 3, column = 6,sticky = W)
+	             textvariable = user_s16).grid(row = 3, column = 6,sticky = W)
+
 e_spec21 = Entry(specified_frame,
 	             bg = 'light blue').grid(row = 4, column = 1,sticky = W)
-e_spec22 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 4, column = 2,sticky = W)
+clicked_cat2 = StringVar(specified_frame)
+clicked_cat2.set('Select Option           ')
+menu_cat2 = OptionMenu(specified_frame,
+                       clicked_cat2,
+                       'Cars)Primary use:Domestic/private)',
+                       'LDV(Commercial use)',
+                       'Taxi(7-24)',
+                       'Motor Traders',
+                       'Buses',
+                       'Mobile Plant',
+                       'BRT',
+                       'Heavy Vehichles(>3,500kg)').grid(row=4,column = 2)
 e_spec23 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 4, column = 3,sticky = W)
+	             bg = 'light blue',
+	             textvariable = user_s23).grid(row = 4, column = 3,sticky = W)
 e_spec24 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 4, column = 4,sticky = W)
+	             bg = 'light blue',
+	             textvariable = user_s24).grid(row = 4, column = 4,sticky = W)
 e_spec25 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 4, column = 5,sticky = W)
+	             textvariable = user_s25).grid(row = 4, column = 5,sticky = W)
 e_spec26 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 4, column = 6,sticky = W)
+	             textvariable = user_s26).grid(row = 4, column = 6,sticky = W)
+
 e_spec31 = Entry(specified_frame,
 	             bg = 'light blue').grid(row = 5, column = 1,sticky = W)
-e_spec32 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 5, column = 2,sticky = W)
+clicked_cat3 = StringVar(specified_frame)
+clicked_cat3.set('Select Option           ')
+menu_cat3 = OptionMenu(specified_frame,
+                       clicked_cat3,
+                       'Cars)Primary use:Domestic/private)',
+                       'LDV(Commercial use)',
+                       'Taxi(7-24)',
+                       'Motor Traders',
+                       'Buses',
+                       'Mobile Plant',
+                       'BRT',
+                       'Heavy Vehichles(>3,500kg)').grid(row=5,column = 2)
 e_spec33 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 5, column = 3,sticky = W)
+	             bg = 'light blue',
+	             textvariable = user_s33).grid(row = 5, column = 3,sticky = W)
 e_spec34 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 5, column = 4,sticky = W)
+	             bg = 'light blue',
+	             textvariable = user_s34).grid(row = 5, column = 4,sticky = W)
 e_spec35 = Entry(specified_frame,
-	              bg = 'light blue').grid(row = 5, column = 5,sticky = W)
+	             textvariable = user_s35).grid(row = 5, column = 5,sticky = W)
 e_spec36 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 5, column = 6,sticky = W)
+	             textvariable = user_s36).grid(row = 5, column = 6,sticky = W)
+
 e_spec41 = Entry(specified_frame,
 	             bg = 'light blue').grid(row = 6, column = 1,sticky = W)
-e_spec42 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 6, column = 2,sticky = W)
+clicked_cat4 = StringVar(specified_frame)
+clicked_cat4.set('Select Option           ')
+menu_cat4 = OptionMenu(specified_frame,
+                       clicked_cat4,
+                       'Cars)Primary use:Domestic/private)',
+                       'LDV(Commercial use)',
+                       'Taxi(7-24)',
+                       'Motor Traders',
+                       'Buses',
+                       'Mobile Plant',
+                       'BRT',
+                       'Heavy Vehichles(>3,500kg)').grid(row=6,column = 2)
 e_spec43 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 6, column = 3,sticky = W)
+	             bg = 'light blue',
+	             textvariable = user_s43).grid(row = 6, column = 3,sticky = W)
 e_spec44 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 6, column = 4,sticky = W)
+	             bg = 'light blue',
+	             textvariable = user_s44).grid(row = 6, column = 4,sticky = W)
 e_spec45 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 6, column = 5,sticky = W)
+	             textvariable =user_s45).grid(row = 6, column = 5,sticky = W)
 e_spec46 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 6, column = 6,sticky = W)
+	             textvariable = user_s46).grid(row = 6, column = 6,sticky = W)
+
 e_spec51 = Entry(specified_frame,
+
 	             bg = 'light blue').grid(row = 7, column = 1,sticky = W)
-e_spec52 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 7, column = 2,sticky = W)
+clicked_cat5 = StringVar(specified_frame)
+clicked_cat5.set('Select Option           ')
+menu_cat5 = OptionMenu(specified_frame,
+                       clicked_cat5,
+                       'Cars)Primary use:Domestic/private)',
+                       'LDV(Commercial use)',
+                       'Taxi(7-24)',
+                       'Motor Traders',
+                       'Buses',
+                       'Mobile Plant',
+                       'BRT',
+                       'Heavy Vehichles(>3,500kg)').grid(row=7,column = 2)
 e_spec53 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 7, column = 3,sticky = W)
+	             bg = 'light blue',
+	             textvariable = user_s53).grid(row = 7, column = 3,sticky = W)
 e_spec54 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 7, column = 4,sticky = W)
+	             bg = 'light blue',
+	             textvariable = user_s54).grid(row = 7, column = 4,sticky = W)
 e_spec55 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 7, column = 5,sticky = W)
+	             textvariable = user_s55).grid(row = 7, column = 5,sticky = W)
 e_spec56 = Entry(specified_frame,
-	             bg = 'light blue').grid(row = 7, column = 6,sticky = W)
+	             textvariable = user_s56).grid(row = 7, column = 6,sticky = W)
 
-label_spectot = Label(specified_frame,text = 'Total ',font ='times 12 bold')
-label_spectot.grid(row = 8,column = 4,sticky = W)
+button_totfleet = Button(specified_frame, text=
+	"Total", command=add_spec)
+button_totfleet.grid(row = 8,column = 4)
 
-e_spec64 = Entry(specified_frame).grid(row = 8,column = 5)
-e_spec65 = Entry(specified_frame).grid(row = 8,column = 6)
+e_spec65 = Entry(specified_frame,
+	             textvariable = user_s65).grid(row = 8,column = 5)
+e_spec66 = Entry(specified_frame,
+	             textvariable = user_s66).grid(row = 8,column = 6)
 
 label_excess2 = Label(specified_frame,text = 'Excess',font = 'times 12 bold',anchor = "w")
 label_excess2.grid(row = 9,column = 0,sticky = W)
@@ -569,7 +993,7 @@ entry_numofmonths = Entry(rating_frame).grid(row = 4,column = 1,sticky = W)
 entry_annclaims = Entry(rating_frame).grid(row = 5,column = 1,sticky = W)
 
 label_premcalcs = Label(rating_frame,text = 'Premium Calcuations',font = 'times 18 bold underline')
-label_premcalcs.grid(row = 6,column = 0)
+label_premcalcs.grid(row = 6,column = 0,sticky ='W')
 #------------------------Option 1 ---------------------------------
 label_opt1 = Label(option1_frame,text = 'Option 1- Conventional',font = 'times 15 bold underline')
 label_showqoteopt1 = Label(option1_frame,text = 'Show on Quote:' ,font = 'times 12 bold')
@@ -600,8 +1024,8 @@ label_premquoteopt1.grid(row =7,column = 0,sticky = W)
 label_overrideopt1.grid(row =8,column = 0,sticky = W)
 label_premquote2opt1.grid(row =9,column = 0,sticky = W)
 
-entry_fleetpremopt1 = Entry(option1_frame).grid(row = 3,column = 1)
-entry_fleetpercopt1 = Entry(option1_frame).grid(row = 3,column = 2)
+entry_fleetpremopt1 = Entry(option1_frame).grid(row = 3,column = 1,sticky = 'W')
+entry_fleetpercopt1 = Entry(option1_frame).grid(row = 3,column = 2,sticky = 'W')
 
 entry_losspremopt1 = Entry(option1_frame).grid(row = 4,column = 1)
 entry_losspercopt1 = Entry(option1_frame).grid(row = 4,column = 2)

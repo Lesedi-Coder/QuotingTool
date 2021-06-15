@@ -15,6 +15,7 @@ def excel():
       
     # resize the width of columns in 
     # excel spreadsheet 
+
     sheet.column_dimensions['A'].width = 30
     sheet.column_dimensions['B'].width = 10
     sheet.column_dimensions['C'].width = 10
